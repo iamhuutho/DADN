@@ -5,7 +5,7 @@ import { View, Text, ScrollView, Dimensions, Alert, Image } from "react-native";
 
 import { images } from "../../constants";
 import { CustomButton, FormField } from "../../components";
-import { getCurrentUser, signIn } from "../../lib/appwrite";
+import { getCurrentUser, signIn, createUser } from "../../lib/appwrite";
 import { useGlobalContext } from "../../context/GlobalProvider";
 
 const SignUp = () => {
@@ -13,6 +13,8 @@ const SignUp = () => {
   const [isSubmitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({
     email: "",
+    fullname: "",
+    age: 0,
     password: "",
   });
 
@@ -24,11 +26,7 @@ const SignUp = () => {
     setSubmitting(true);
 
     try {
-      await signIn(form.email, form.password);
-      const result = await getCurrentUser();
-      setUser(result);
-      setIsLogged(true);
-
+      await createUser(form.email, form.fullname, form.age, form.password);
       Alert.alert("Success", "User signed in successfully");
       router.replace("/home");
     } catch (error) {
@@ -62,15 +60,15 @@ const SignUp = () => {
           />
           <FormField
             title="Full Name"
-            value={form.email}
-            handleChangeText={(e) => setForm({ ...form, email: e })}
+            value={form.fullname}
+            handleChangeText={(e) => setForm({ ...form, fullname: e })}
             otherStyles="mt-7"
             keyboardType="email-address"
           />
           <FormField
             title="Age"
-            value={form.email}
-            handleChangeText={(e) => setForm({ ...form, email: e })}
+            value={form.age}
+            handleChangeText={(e) => setForm({ ...form, age: e })}
             otherStyles="mt-7"
             keyboardType="email-address"
           />
@@ -82,8 +80,7 @@ const SignUp = () => {
           />
           <FormField
             title="Confirm Password"
-            value={form.password}
-            handleChangeText={(e) => setForm({ ...form, password: e })}
+            // handleChangeText={(e) => setForm({ ...form, password: e })}
             otherStyles="mt-7"
           />
           <CustomButton

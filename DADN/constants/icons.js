@@ -11,6 +11,12 @@ import logout from "../assets/icons/logout.png";
 import eyeHide from "../assets/icons/eye-hide.png";
 import eye from "../assets/icons/eye.png";
 import play from "../assets/icons/play.png";
+import bulb from "../assets/icons/bulb.png";
+import remote from "../assets/icons/remote.png";
+import iphone from "../assets/icons/iphone.png";
+import noti from "../assets/icons/noti.png";
+import dashboard from "../assets/icons/Dash_board.png";
+import auto from "../assets/icons/auto.png";
 
 export default {
   play,
@@ -26,4 +32,10 @@ export default {
   logout,
   eyeHide,
   eye,
+  bulb,
+  remote,
+  iphone,
+  noti,
+  dashboard,
+  auto,
 };

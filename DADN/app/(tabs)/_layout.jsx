@@ -34,21 +34,21 @@ const TabLayout = () => {
     <>
       <Tabs
         screenOptions={{
-          tabBarActiveTintColor: "#FFA001",
+          tabBarActiveTintColor: "rgb(37 99 235)",
           tabBarInactiveTintColor: "#CDCDE0",
           tabBarShowLabel: false,
           tabBarStyle: {
-            backgroundColor: "#161622",
-            borderTopWidth: 1,
-            borderTopColor: "#232533",
-            height: 84,
+            backgroundColor: "white",
+            borderTopWidth: 2,
+            borderTopColor: "rgb(37 99 235)",
+            height: 100,
           },
         }}
       >
         <Tabs.Screen
           name="home"
           options={{
-            title: "Home",
+            title: "home",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
@@ -61,15 +61,15 @@ const TabLayout = () => {
           }}
         />
         <Tabs.Screen
-          name="bookmark"
+          name="Remote"
           options={{
-            title: "Bookmark",
+            title: "Remote",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
-                icon={icons.bookmark}
+                icon={icons.remote}
                 color={color}
-                name="Bookmark"
+                name="Remote"
                 focused={focused}
               />
             ),
@@ -77,30 +77,45 @@ const TabLayout = () => {
         />
 
         <Tabs.Screen
-          name="create"
+          name="Dashboard"
           options={{
-            title: "Create",
+            title: "Dashboard",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
-                icon={icons.plus}
+                icon={icons.dashboard}
                 color={color}
-                name="Create"
+                name="Dashboard"
                 focused={focused}
               />
             ),
           }}
         />
         <Tabs.Screen
-          name="profile"
+          name="Automation"
           options={{
-            title: "Profile",
+            title: "Automation",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
-                icon={icons.profile}
+                icon={icons.auto}
                 color={color}
-                name="Profile"
+                name="Auto"
+                focused={focused}
+              />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="Notification"
+          options={{
+            title: "Notification",
+            headerShown: false,
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon
+                icon={icons.noti}
+                color={color}
+                name="Noti"
                 focused={focused}
               />
             ),

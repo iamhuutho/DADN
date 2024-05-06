@@ -7,6 +7,7 @@ import {
   Query,
   Storage,
 } from "react-native-appwrite";
+import axios from "axios";
 
 export const appwriteConfig = {
   endpoint: "https://cloud.appwrite.io/v1",
@@ -30,50 +31,41 @@ const storage = new Storage(client);
 const avatars = new Avatars(client);
 const databases = new Databases(client);
 
+import * as SQLite from "expo-sqlite";
+
 // Register user
-export async function createUser(email, password, username) {
+export async function createUser(email, fullname, age, password) {
+  const data = {
+    email: String(email),
+    fullName: String(fullname),
+    age: Number(age),
+    password: String(password),
+  };
+  console.log(data);
   try {
-    const newAccount = await account.create(
-      ID.unique(),
-      email,
-      password,
-      username
-    );
-
-    if (!newAccount) throw Error;
-
-    const avatarUrl = avatars.getInitials(username);
-
-    await signIn(email, password);
-
-    const newUser = await databases.createDocument(
-      appwriteConfig.databaseId,
-      appwriteConfig.userCollectionId,
-      ID.unique(),
+    const response = await fetch(
+      "https://my-json-server.typicode.com/iamhuutho/dadn-api/account",
       {
-        accountId: newAccount.$id,
-        email: email,
-        username: username,
-        avatar: avatarUrl,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       }
     );
 
-    return newUser;
+    if (!response.ok) {
+      throw new Error("Failed to create user");
+    }
+
+    return await response.json(); // Assuming you want to return data from the API
   } catch (error) {
-    throw new Error(error);
+    throw new Error(error.message);
   }
 }
 
 // Sign In
-export async function signIn(email, password) {
-  try {
-    const session = await account.createEmailSession(email, password);
-
-    return session;
-  } catch (error) {
-    throw new Error(error);
-  }
-}
+export async function signIn(email, password) {}
 
 // Get Account
 export async function getAccount() {

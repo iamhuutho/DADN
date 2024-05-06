@@ -5,7 +5,6 @@ const User = new PrismaClient().user;
 export const getAllUser = async (req, res) => {
   try {
     const allUser = await User.findMany({});
-
     res.status(200).json({ data: allUser });
   } catch (e) {
     console.log(e);

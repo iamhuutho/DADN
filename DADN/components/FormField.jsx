@@ -24,11 +24,23 @@ const FormField = ({
           placeholder={placeholder}
           placeholderTextColor="#text-blue-600"
           onChangeText={handleChangeText}
-          secureTextEntry={title === "Password" && !showPassword}
+          secureTextEntry={
+            (title == "Confirm Password" || title == "Password") &&
+            !showPassword
+          }
           {...props}
         />
 
         {title === "Password" && (
+          <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+            <Image
+              source={!showPassword ? icons.eye : icons.eyeHide}
+              className="w-6 h-6"
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+        )}
+        {title === "Confirm Password" && (
           <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
             <Image
               source={!showPassword ? icons.eye : icons.eyeHide}

@@ -14,47 +14,90 @@ datasource db {
 }
 
 model User {
-  id  Int @id @default(autoincrement())
-  name  String   
-  address     String   
-  phoneNumber  String
-  gender Gender @default(MALE)
-  gmail String
-  paymentMethod String
-  order Order[]
+  id         Int          @id @default(autoincrement())
+  email      String       @unique
+  fullName   String
+  age        Int
+  password   String
+  Automation Automation[]
+  DashBoard  DashBoard?
+  Device     Device[]
 }
 
-model Product {
-  id Int @id @default(autoincrement())
-  name String
-  price Int
-  description String
-  gender Gender @default(MALE)
-  size Int
-  warranty String
-  Brand String
-  model String
-  order Order[]
+model Device {
+  id        Int        @id @default(autoincrement())
+  userId    Int
+  User      User       @relation(fields: [userId], references: [id])
+  LightBulb LightBulb?
+  TVRemote  TVRemote?
+  Phone     Phone?
 }
 
-model Voucher{
-  id Int @id @default(autoincrement())
-  code String
-  order Order[]
+model LightBulb {
+  id       Int    @id @default(autoincrement())
+  battery  Int
+  mode     Int
+  light    Int
+  deviceId Int    @unique
+  device   Device @relation(fields: [deviceId], references: [id])
 }
 
-model Order{
-  id Int @id @default(autoincrement())
-  userId      Int      
-  productId   Int      
-  voucherId   Int     
-  user User @relation(fields: [userId], references: [id])
-  product Product @relation(fields: [productId], references: [id])
-  voucher Voucher @relation(fields: [voucherId], references: [id])
+model TVRemote {
+  id       Int    @id @default(autoincrement())
+  battery  Int
+  mode     Int
+  deviceId Int    @unique
+  device   Device @relation(fields: [deviceId], references: [id])
 }
 
-enum Gender{
-  MALE
-  FEMALE
-  OTHER
+model Phone {
+  id       Int    @id @default(autoincrement())
+  battery  Int
+  mode     Int
+  deviceId Int    @unique
+  device   Device @relation(fields: [deviceId], references: [id])
+}
+
+model Automation {
+  id             Int              @id @default(autoincrement())
+  userId         Int
+  User           User             @relation(fields: [userId], references: [id])
+  AutomationTask AutomationTask[]
+}
+
+model AutomationTask {
+  id           Int        @id @default(autoincrement())
+  automationId Int
+  automation   Automation @relation(fields: [automationId], references: [id])
+  taskname     String
+  time         DateTime
+  repeat       REPEAT     @default(EVERYDAY)
+}
+
+model Sensor {
+  id          Int @id @default(autoincrement())
+  humidity    Int
+  light       Int
+  temperature Int
+}
+
+model DashBoard {
+  id            Int             @id @default(autoincrement())
+  userId        Int             @unique
+  user          User            @relation(fields: [userId], references: [id])
+  DashBoardInfo DashBoardInfo[]
+}
+
+model DashBoardInfo {
+  id          Int       @id @default(autoincrement())
+  dashboardId Int
+  dashboard   DashBoard @relation(fields: [dashboardId], references: [id])
+  humidity    Int
+  light       Int
+  temperature Int
+}
+
+enum REPEAT {
+  EVERYDAY
+  EVERYWEEKEND
 }
